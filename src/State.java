@@ -77,10 +77,10 @@ public class State {
         terminal = false;
     }
 
-    //TODO
     public void move(int selection) {
         //rearrange beans
         int beansSelection = board[selection];
+        board[selection] = 0;
         for (int i = 1; i <= beansSelection; i++) {
             board[(selection + i) % 12]++;
         }
@@ -89,8 +89,10 @@ public class State {
         int checkField = selection + beansSelection;
         while (board[checkField % 12] == 6 || board[checkField % 12] == 4 || board[checkField % 12] == 2) {
             if (redPlayer) {
+                //System.out.println("red + " + board[checkField % 12]);
                 treasureRed += board[checkField % 12];
             } else {
+                //System.out.println("blue + " + board[checkField % 12]);
                 treasureBlue += board[checkField % 12];
             }
             board[checkField % 12] = 0;
@@ -109,7 +111,41 @@ public class State {
      * @return Eigner Tressor.
      */
     public int getHvalue() {
-        return redPlayer ? treasureRed - treasureBlue : treasureBlue - treasureRed;
+
+        int treasurediff = redPlayer ? treasureRed - treasureBlue : treasureBlue - treasureRed;
+        int myScore = redPlayer ? treasureRed : treasureBlue;
+        ArrayList<Integer> availableMoves = getMoves();
+        if(availableMoves.isEmpty()){
+            //System.out.println("-100000");
+            return Integer.MIN_VALUE;
+        }
+        return  treasurediff;
+        /*
+        int myScore = redPlayer ? treasureRed : treasureBlue;
+        int opponentScore = redPlayer ? treasureBlue : treasureRed;
+        int offset = redPlayer ? 0 : 6;
+        int myBeans = 0;
+        int myWinPits = 0;
+        int opponentBeans = 0;
+        int opponentWinPits = 0;
+
+        for (int i = offset; i < 6 + offset; i++) {
+            myBeans += board[i];
+            if(board[i] == 2 || board[i] == 4 || board[i] == 6){
+                myWinPits++;
+            }
+        }
+
+        for (int i = 6 - offset; i < 12 - offset; i++) {
+            opponentBeans += board[i];
+            if(board[i] == 2 || board[i] == 4 || board[i] == 6){
+                opponentWinPits++;
+            }
+        }
+
+        return (myScore - opponentScore) + ((myBeans - opponentBeans) / 4) + ((myWinPits - opponentWinPits) * 4);
+
+         */
     }
 
     /**

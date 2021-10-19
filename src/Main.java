@@ -14,8 +14,8 @@ public class Main {
 
     static final int maxDepth = 8;
     static int bestMove;
-    static boolean join = false;
-    static String gameID = "678";
+    static boolean join = true;
+    static String gameID = "1062";
 
     public static void main(String[] args) throws Exception {
         // System.out.println(load(server));
@@ -92,7 +92,7 @@ public class Main {
                 if (moveState != -1) {
                     int selectedField = moveState - 1;
                     board = updateBoard(board, selectedField);
-                    System.out.println("Gegner w�hlte: " + moveState + " /\t" + p1 + " - " + p2);
+                    System.out.println("Gegner waehlte: " + moveState + " /\t" + p1 + " - " + p2);
                     System.out.println(printBoard(board) + "\n");
                 }
                 // calculate fieldID
@@ -105,6 +105,7 @@ public class Main {
                  */
                 bestMove = -1;
                 State currentState = new State(board, p1, p2);
+                System.out.println("Punktestand: Rot - " + currentState.treasureRed + " Blau - " + currentState.treasureBlue);
                 if (join) {
                     currentState.redPlayer = false;
                 }
@@ -265,12 +266,18 @@ public class Main {
             State next = new State(n);
             //System.out.println("max in Tiefe " + depth + " betrachteter Zug: " + moves.get(0));
             int move = moves.remove(0);
+            if(bestMove == -1 && depth == maxDepth){
+                bestMove = move;
+            }
             next.move(move);
             wert = min(next, depth - 1);
+            //System.out.println("Max in Tiefe " + depth + " Zug: " + move + " Wert: " + wert + " aktuelles Max: " +maxWert);
             //System.out.println("Tiefe: " + depth + " aktueller Wert " + wert + " maxWert " + maxWert);
             if (wert > maxWert) {
+                //System.out.println("neuer max wert: " + maxWert + " --> " +wert);
                 maxWert = wert;
                 if (depth == maxDepth) {
+                    //System.out.println("neuer best move: " + bestMove);
                     bestMove = move;
                 }
             }
@@ -295,9 +302,12 @@ public class Main {
         int wert;
         while (!moves.isEmpty()) {
             State next = new State(n);
-            next.move(moves.remove(0));
+            int move = moves.remove(0);
+            next.move(move);
             wert = max(next, depth - 1);
+            //System.out.println("Min in Tiefe " + depth + " Zug: " + move + " Wert: " + wert + " aktuelles Min: " + minWert);
             if (wert < minWert) {
+                //System.out.println("neuer min wert: " + minWert + " --> " +wert);
                 minWert = wert;
             }
         }
