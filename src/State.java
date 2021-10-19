@@ -74,6 +74,7 @@ public class State {
 
     //TODO
     public void checkTerminal() {
+
         terminal = false;
     }
 
@@ -106,9 +107,9 @@ public class State {
     }
 
     /**
-     * Checkt welcher Tressor welchem Spieler gehoert.
+     * Berechnet Heuristikwert.
      *
-     * @return Eigner Tressor.
+     * @return Heuristikwert.
      */
     public int getHvalue() {
 
