@@ -262,6 +262,7 @@ public class Main {
         ArrayList<Integer> moves = n.getMoves();
         //System.out.println(moves.toString() + ", Tiefe: " + depth);
         int wert;
+
         while (!moves.isEmpty()) {
             State next = new State(n);
             //System.out.println("max in Tiefe " + depth + " betrachteter Zug: " + moves.get(0));
