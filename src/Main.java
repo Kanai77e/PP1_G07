@@ -5,15 +5,15 @@ import java.util.ArrayList;
 
 
 public class Main {
-    static final int maxDepth = 14;
+    static final int maxDepth = 12;
     // static String server = "http://127.0.0.1:5000";
     static String server = "http://bohnenspiel.informatik.uni-mannheim.de";
     static String name = "random-brei";
     static int p1 = 0;
     static int p2 = 0;
     static int bestMove;
-    static boolean join = false;
-    static String gameID = "1626";
+    static boolean join = true;
+    static String gameID = "1758";
 
     public static void main(String[] args) throws Exception {
         // System.out.println(load(server));
