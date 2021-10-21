@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 
 public class Main {
-    static final int maxDepth = 10;
+    static final int maxDepth = 14;
     // static String server = "http://127.0.0.1:5000";
     static String server = "http://bohnenspiel.informatik.uni-mannheim.de";
     static String name = "random-brei";
@@ -13,7 +13,7 @@ public class Main {
     static int p2 = 0;
     static int bestMove;
     static boolean join = false;
-    static String gameID = "1586";
+    static String gameID = "1626";
 
     public static void main(String[] args) throws Exception {
         // System.out.println(load(server));
@@ -33,7 +33,7 @@ public class Main {
 
         url = server + "/api/check/" + gameID + "/" + name;
         while (true) {
-            Thread.sleep(3000);
+            Thread.sleep(500);
             String state = load(url);
             System.out.print("." + " (" + state + ")");
             if (state.equals("0") || state.equals("-1")) {
@@ -93,6 +93,8 @@ public class Main {
                     System.out.println("Gegner waehlte: " + moveState + " /\t" + p1 + " - " + p2);
                     System.out.println(printBoard(board) + "\n");
                 }
+                long timeStart = System.currentTimeMillis();
+
                 // calculate fieldID
                 int selectField;
                 // System.out.println("Finde Zahl: ");
@@ -123,6 +125,8 @@ public class Main {
                     System.out.println(printBoard(board) + "\n\n");
 
                     move(gameID, selectField + 1);
+                    long timeEnd = System.currentTimeMillis();
+                    System.out.println("Zeit: " + (timeEnd - timeStart));
                 } else {
                     System.out.println("Fehler kein Zug gefunden");
                 }
@@ -132,7 +136,7 @@ public class Main {
                 System.out.println(load(checkURL));
                 return;
             } else {
-                System.out.println("- " + moveState + "\t\t" + load(statesMsgURL));
+                //System.out.println("- " + moveState + "\t\t" + load(statesMsgURL));
             }
 
         }
