@@ -314,7 +314,7 @@ public class Main {
 //    }
 
     /**
-     * Deutsche Vorlage.
+     * Deutsche Vorlage. Alpha - Beta
      * Berechnet den bestemoeglichen Zug fuer den Max Spieler.
      *
      * @param n     aktueller Spielzustand
@@ -325,7 +325,7 @@ public class Main {
         if (depth == 0 || n.terminal) {
             return n.getHvalue();
         }
-        int maxWert = Integer.MIN_VALUE;
+        int maxWert = alpha;
         ArrayList<Integer> moves = n.getMoves();
         //System.out.println(moves.toString() + ", Tiefe: " + depth);
         int wert;
@@ -348,6 +348,9 @@ public class Main {
                     //System.out.println("neuer best move: " + bestMove);
                     bestMove = move;
                 }
+                if (maxWert >= beta) {
+                    break;
+                }
             }
         }
         return maxWert;
@@ -361,7 +364,7 @@ public class Main {
      * @param depth aktuelle Tiefe
      * @return bestemoeglichen Zug Min Spieler
      */
-    public static int min(State n, int depth) {
+    public static int min(State n, int depth, int alpha, int beta) {
         if (depth == 0 || n.terminal) {
             return n.getHvalue();
         }
@@ -372,7 +375,7 @@ public class Main {
             State next = new State(n);
             int move = moves.remove(0);
             next.move(move);
-            wert = max(next, depth - 1);
+            wert = max(next, depth - 1, alpha, minWert);
             //System.out.println("Min in Tiefe " + depth + " Zug: " + move + " Wert: " + wert + " aktuelles Min: " + minWert);
             if (wert < minWert) {
                 //System.out.println("neuer min wert: " + minWert + " --> " +wert);
