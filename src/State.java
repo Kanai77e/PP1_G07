@@ -113,15 +113,20 @@ public class State {
      */
     public int getHvalue() {
 
-        int treasurediff = redPlayer ? treasureRed - treasureBlue : treasureBlue - treasureRed;
-        int myScore = redPlayer ? treasureRed : treasureBlue;
         ArrayList<Integer> availableMoves = getMoves();
         if(availableMoves.isEmpty()){
             //System.out.println("-100000");
             return Integer.MIN_VALUE;
         }
-        return  treasurediff;
+
         /*
+        int treasurediff = redPlayer ? treasureRed - treasureBlue : treasureBlue - treasureRed;
+        int myScore = redPlayer ? treasureRed : treasureBlue;
+        return  treasurediff;
+        */
+
+
+
         int myScore = redPlayer ? treasureRed : treasureBlue;
         int opponentScore = redPlayer ? treasureBlue : treasureRed;
         int offset = redPlayer ? 0 : 6;
@@ -146,7 +151,7 @@ public class State {
 
         return (myScore - opponentScore) + ((myBeans - opponentBeans) / 4) + ((myWinPits - opponentWinPits) * 4);
 
-         */
+
     }
 
     /**

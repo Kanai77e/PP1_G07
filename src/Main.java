@@ -14,8 +14,8 @@ public class Main {
 
     static final int maxDepth = 8;
     static int bestMove;
-    static boolean join = true;
-    static String gameID = "1062";
+    static boolean join = false;
+    static String gameID = "1074";
 
     public static void main(String[] args) throws Exception {
         // System.out.println(load(server));
@@ -99,9 +99,8 @@ public class Main {
                 int selectField;
                 // System.out.println("Finde Zahl: ");
 
-                /**
-                 * Algorithmus aufrufen.
-                 *
+                /*
+                  Algorithmus aufrufen.
                  */
                 bestMove = -1;
                 State currentState = new State(board, p1, p2);
