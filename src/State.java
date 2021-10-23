@@ -6,7 +6,7 @@ public class State {
     public int treasureRed;          //Schatzkammern
     public int treasureBlue;
     boolean terminal;               //Terminalzustand
-    boolean redPlayer;                // erster / zweiter Spieler
+    boolean redPlayer;                // Spieler der im Zustand am Zug ist
 
 
     /**
