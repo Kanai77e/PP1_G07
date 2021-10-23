@@ -2,7 +2,6 @@ import java.util.ArrayList;
 
 public class State {
 
-    //Aufgabenteil a)
     public int[] board;             // int Feld repraesentiert einen Zustand im Spiel
     public int treasureRed;          //Schatzkammern
     public int treasureBlue;
@@ -28,7 +27,7 @@ public class State {
     /**
      * Kopierkonstruktor 1
      *
-     * @param orig State der Kopiert wird
+     * @param orig State der kopiert wird
      */
     public State(final State orig) {
         this.board = new int[12];
@@ -72,28 +71,29 @@ public class State {
         return moves;
     }
 
-    //TODO
+    //TODO: bisher noch nicht verwendet. Moegliche Verbesserung
     public void checkTerminal() {
-
         terminal = false;
     }
 
+    /**
+     * Fuehrt einen Zug aus und verteilt dementsprechend Punkte an Spieler
+     * @param selection ausgewaehlter Zug
+     */
     public void move(int selection) {
-        //rearrange beans
+        //verteile die Bohnen neu
         int beansSelection = board[selection];
         board[selection] = 0;
         for (int i = 1; i <= beansSelection; i++) {
             board[(selection + i) % 12]++;
         }
 
-        //give Points
+        //verteile Punkte
         int checkField = selection + beansSelection;
         while (board[checkField % 12] == 6 || board[checkField % 12] == 4 || board[checkField % 12] == 2) {
             if (redPlayer) {
-                //System.out.println("red + " + board[checkField % 12]);
                 treasureRed += board[checkField % 12];
             } else {
-                //System.out.println("blue + " + board[checkField % 12]);
                 treasureBlue += board[checkField % 12];
             }
             board[checkField % 12] = 0;
@@ -113,19 +113,11 @@ public class State {
      */
     public int getHvalue() {
 
+        //Verhindere auf jeden Fall Zustaende in denen kein Zug mehr moeglich ist
         ArrayList<Integer> availableMoves = getMoves();
         if(availableMoves.isEmpty()){
-            //System.out.println("-100000");
             return Integer.MIN_VALUE;
         }
-
-        /*
-        int treasurediff = redPlayer ? treasureRed - treasureBlue : treasureBlue - treasureRed;
-        int myScore = redPlayer ? treasureRed : treasureBlue;
-        return  treasurediff;
-        */
-
-
 
         int myScore = redPlayer ? treasureRed : treasureBlue;
         int opponentScore = redPlayer ? treasureBlue : treasureRed;
@@ -182,6 +174,7 @@ public class State {
     }
 
 
+    //Todo: Bisher noch nicht verwendet. Moegliche Verbesserung
     /**
      * Wendet Hashfunktion auf einen Spielzustand an.
      *

@@ -5,15 +5,15 @@ import java.util.ArrayList;
 
 
 public class Main {
-    static final int maxDepth = 12;
+    static final int maxDepth = 12;         //maximale Suchtiefe des Algorithmus
     // static String server = "http://127.0.0.1:5000";
     static String server = "http://bohnenspiel.informatik.uni-mannheim.de";
     static String name = "random-brei";
-    static int p1 = 0;
+    static int p1 = 0;                      //Schatzkammern
     static int p2 = 0;
-    static int bestMove;
-    static boolean join = true;
-    static String gameID = "1758";
+    static int bestMove;                    //Zug der vom Algorithmus ueberschrieben wird
+    static boolean join = false;            //legt fest ob einem Spiel beigetreten werden soll
+    static String gameID = "1758";          //ID die fuer den Beitritt gebraucht wird
 
     public static void main(String[] args) throws Exception {
         // System.out.println(load(server));
@@ -97,11 +97,8 @@ public class Main {
 
                 // calculate fieldID
                 int selectField;
-                // System.out.println("Finde Zahl: ");
 
-                /*
-                  Algorithmus aufrufen.
-                 */
+                //Ab hier wird unser Algorithmus aufgerufen
                 bestMove = -1;
                 State currentState = new State(board, p1, p2);
                 System.out.println("Punktestand: Rot - " + currentState.treasureRed + " Blau - " + currentState.treasureBlue);
@@ -110,14 +107,7 @@ public class Main {
                 }
                 int hValue = max(currentState, maxDepth, Integer.MIN_VALUE, Integer.MAX_VALUE);
                 selectField = bestMove;
-
-                /* zufaelliger Zug
-                do {
-                    selectField = (int) (Math.random() * 6) + offset;
-                    // System.out.println("\t-> " + selectField );
-                } while(board[selectField] == 0);
-                */
-
+                //__________________________________________
 
                 if (selectField != -1) {
                     board = updateBoard(board, selectField);
@@ -136,7 +126,7 @@ public class Main {
                 System.out.println(load(checkURL));
                 return;
             } else {
-                //System.out.println("- " + moveState + "\t\t" + load(statesMsgURL));
+                System.out.println("- " + moveState + "\t\t" + load(statesMsgURL));
             }
 
         }
@@ -210,120 +200,13 @@ public class Main {
         return (sb.toString());
     }
 
-
     /**
-     * Englischer Vorlage.
-     * Minimax Algorithmus sucht best moeglichen Zug.
-     * @param n Betrachteter Knoten aus Min Max Baum.
-     * @param depth Gibt die maximale Suchtiefe an.
-     * @param maxPlayer Gibt an ob der Min oder Max Spieler an der Reihe ist.
-     *                  true, wenn der Max Spieler an der Reihe ist, false sonst.
-     * @return Heuristikwert des Blattknotens.
-     */
-
-    /*
-    public static int minimax(Node n, int depth, boolean maxPlayer){
-        if (depth == 0 || n.nachfolger[0] == null){ //tiefe = 0 oder Knoten ist Terminalknoten
-            return n.value; //return heuristik wert
-        }
-        int value;
-        if(maxPlayer){                  //maximizingPlayer
-            value = Integer.MIN_VALUE;
-            for(Node nachfolger: n.nachfolger){
-                if(value < minimax(nachfolger, depth-1, false)) {
-                    value = minimax(nachfolger, depth - 1, false);
-                }
-            }
-            return value;
-        } else{                         //minimizingPlayer
-            value = Integer.MAX_VALUE;
-            for(Node nachfolger: n.nachfolger){
-                if(value > minimax(nachfolger, depth-1, true)) {
-                    value = minimax(nachfolger, depth - 1, true);
-                }
-            }
-            return value;
-        }
-    }
-    */
-
-
-//    /**
-//     * Deutsche Vorlage.
-//     * Berechnet den bestemoeglichen Zug fuer den Max Spieler.
-//     *
-//     * @param n     aktueller Spielzustand
-//     * @param depth aktuelle Tiefe
-//     * @return bestemoeglichen Zug Max Spieler
-//     */
-//    public static int max(State n, int depth) {
-//        if (depth == 0 || n.terminal) {
-//            return n.getHvalue();
-//        }
-//        int maxWert = Integer.MIN_VALUE;
-//        ArrayList<Integer> moves = n.getMoves();
-//        //System.out.println(moves.toString() + ", Tiefe: " + depth);
-//        int wert;
-//
-//        while (!moves.isEmpty()) {
-//            State next = new State(n);
-//            //System.out.println("max in Tiefe " + depth + " betrachteter Zug: " + moves.get(0));
-//            int move = moves.remove(0);
-//            if(bestMove == -1 && depth == maxDepth){
-//                bestMove = move;
-//            }
-//            next.move(move);
-//            wert = min(next, depth - 1);
-//            //System.out.println("Max in Tiefe " + depth + " Zug: " + move + " Wert: " + wert + " aktuelles Max: " +maxWert);
-//            //System.out.println("Tiefe: " + depth + " aktueller Wert " + wert + " maxWert " + maxWert);
-//            if (wert > maxWert) {
-//                //System.out.println("neuer max wert: " + maxWert + " --> " +wert);
-//                maxWert = wert;
-//                if (depth == maxDepth) {
-//                    //System.out.println("neuer best move: " + bestMove);
-//                    bestMove = move;
-//                }
-//            }
-//        }
-//        return maxWert;
-//    }
-//
-//
-//    /**
-//     * Berechnet den bestemoeglichen Zug fuer den Min Spieler.
-//     *
-//     * @param n     aktueller Spielzustand
-//     * @param depth aktuelle Tiefe
-//     * @return bestemoeglichen Zug Min Spieler
-//     */
-//    public static int min(State n, int depth) {
-//        if (depth == 0 || n.terminal) {
-//            return n.getHvalue();
-//        }
-//        int minWert = Integer.MAX_VALUE;
-//        ArrayList<Integer> moves = n.getMoves();
-//        int wert;
-//        while (!moves.isEmpty()) {
-//            State next = new State(n);
-//            int move = moves.remove(0);
-//            next.move(move);
-//            wert = max(next, depth - 1);
-//            //System.out.println("Min in Tiefe " + depth + " Zug: " + move + " Wert: " + wert + " aktuelles Min: " + minWert);
-//            if (wert < minWert) {
-//                //System.out.println("neuer min wert: " + minWert + " --> " +wert);
-//                minWert = wert;
-//            }
-//        }
-//        return minWert;
-//    }
-
-    /**
-     * Deutsche Vorlage. Alpha - Beta
+     * Vorlage Wikipedia. Alpha - Beta. Angepasst fuer unsere Zwecke.
      * Berechnet den bestemoeglichen Zug fuer den Max Spieler.
      *
      * @param n     aktueller Spielzustand
      * @param depth aktuelle Tiefe
-     * @return bestemoeglichen Zug Max Spieler
+     * @return bestmoeglichen Zug Max Spieler
      */
     public static int max(State n, int depth, int alpha, int beta) {
         if (depth == 0 || n.terminal) {
@@ -331,25 +214,19 @@ public class Main {
         }
         int maxWert = alpha;
         ArrayList<Integer> moves = n.getMoves();
-        //System.out.println(moves.toString() + ", Tiefe: " + depth);
         int wert;
 
         while (!moves.isEmpty()) {
             State next = new State(n);
-            //System.out.println("max in Tiefe " + depth + " betrachteter Zug: " + moves.get(0));
             int move = moves.remove(0);
-            if (bestMove == -1 && depth == maxDepth) {
+            if (bestMove == -1 && depth == maxDepth) {      //stellt sicher, dass auf jeden Fall ein Zug ausgewaehlt wird
                 bestMove = move;
             }
             next.move(move);
             wert = min(next, depth - 1, maxWert, beta);
-            //System.out.println("Max in Tiefe " + depth + " Zug: " + move + " Wert: " + wert + " aktuelles Max: " +maxWert);
-            //System.out.println("Tiefe: " + depth + " aktueller Wert " + wert + " maxWert " + maxWert);
             if (wert > maxWert) {
-                //System.out.println("neuer max wert: " + maxWert + " --> " +wert);
                 maxWert = wert;
                 if (depth == maxDepth) {
-                    //System.out.println("neuer best move: " + bestMove);
                     bestMove = move;
                 }
                 if (maxWert >= beta) {
@@ -362,11 +239,12 @@ public class Main {
 
 
     /**
+     * Vorlage Wikipedia. Alpha - Beta. Angepasst fuer unsere Zwecke.
      * Berechnet den bestemoeglichen Zug fuer den Min Spieler.
      *
      * @param n     aktueller Spielzustand
      * @param depth aktuelle Tiefe
-     * @return bestemoeglichen Zug Min Spieler
+     * @return bestmoeglichen Zug Min Spieler
      */
     public static int min(State n, int depth, int alpha, int beta) {
         if (depth == 0 || n.terminal) {
@@ -380,9 +258,7 @@ public class Main {
             int move = moves.remove(0);
             next.move(move);
             wert = max(next, depth - 1, alpha, minWert);
-            //System.out.println("Min in Tiefe " + depth + " Zug: " + move + " Wert: " + wert + " aktuelles Min: " + minWert);
             if (wert < minWert) {
-                //System.out.println("neuer min wert: " + minWert + " --> " +wert);
                 minWert = wert;
                 if (minWert <= alpha) {
                     break;
