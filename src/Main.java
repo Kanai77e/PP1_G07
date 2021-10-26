@@ -5,15 +5,15 @@ import java.util.ArrayList;
 
 
 public class Main {
-    static final int maxDepth = 12;         //maximale Suchtiefe des Algorithmus
+    static final int maxDepth = 14;         //maximale Suchtiefe des Algorithmus
     // static String server = "http://127.0.0.1:5000";
     static String server = "http://bohnenspiel.informatik.uni-mannheim.de";
-    static String name = "PP1_G07";
+    static String name = "Obean-Wan";
     static int p1 = 0;                      //Schatzkammern
     static int p2 = 0;
     static int bestMove;                    //Zug der vom Algorithmus ueberschrieben wird
-    static boolean join = false;            //legt fest ob einem Spiel beigetreten werden soll
-    static String gameID = "1758";          //ID die fuer den Beitritt gebraucht wird
+    static boolean join = true;            //legt fest ob einem Spiel beigetreten werden soll
+    static String gameID = "3534";          //ID die fuer den Beitritt gebraucht wird
 
     public static void main(String[] args) throws Exception {
         // System.out.println(load(server));
@@ -26,6 +26,7 @@ public class Main {
     }
 
 
+
     static void createGame() throws Exception {
         String url = server + "/api/creategame/" + name;
         String gameID = load(url);
@@ -33,7 +34,7 @@ public class Main {
 
         url = server + "/api/check/" + gameID + "/" + name;
         while (true) {
-            Thread.sleep(500);
+            Thread.sleep(100);
             String state = load(url);
             System.out.print("." + " (" + state + ")");
             if (state.equals("0") || state.equals("-1")) {
@@ -83,7 +84,7 @@ public class Main {
         }
 
         while (true) {
-            Thread.sleep(200);
+            Thread.sleep(100);
             int moveState = Integer.parseInt(load(checkURL));
             int stateID = Integer.parseInt(load(stateIdURL));
             if (stateID != 2 && ((start <= moveState && moveState <= end) || moveState == -1)) {
