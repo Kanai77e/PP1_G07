@@ -8,7 +8,7 @@ public class Main {
     static final int maxDepth = 14;         //maximale Suchtiefe des Algorithmus
     // static String server = "http://127.0.0.1:5000";
     static String server = "http://bohnenspiel.informatik.uni-mannheim.de";
-    static String name = "Obean-Wan";
+    static String name = "Obin-Wan";
     static int p1 = 0;                      //Schatzkammern
     static int p2 = 0;
     static int bestMove;                    //Zug der vom Algorithmus ueberschrieben wird
